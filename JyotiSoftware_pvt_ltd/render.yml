@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: jyoti-software-company
+    env: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - Dockerfile
+        - render.yaml
+        - JyotiSoftware_pvt_ltd/**
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: docker
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:mysql://switchyard.proxy.rlwy.net:36188/railway
+      - key: SPRING_DATASOURCE_USERNAME
+        value: root
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: LsZxBqitFmFrzmtgItFwlgOZZtnyeTqn
+      - key: HIBERNATE_DIALECT
+        value: org.hibernate.dialect.MySQL8Dialect
