@@ -2,7 +2,7 @@
 FROM maven:3.8.5-openjdk-17-slim AS build
 WORKDIR /app
 
-# Copy from the CURRENT folder (no subfolder prefix)
+# Copy from the current context (module folder)
 COPY pom.xml .
 RUN mvn -q -DskipTests dependency:go-offline
 
@@ -13,10 +13,10 @@ RUN mvn -q -DskipTests clean package
 FROM openjdk:17-jdk-slim
 WORKDIR /app
 
-# Copy the built jar (any name) from the build stage
+# Copy the built fat jar
 COPY --from=build /app/target/*.jar /app/app.jar
 
-# Render injects $PORT; default for local is fine
+# Render injects $PORT at runtime
 ENV PORT=9090
 EXPOSE 9090
 
