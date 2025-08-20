@@ -1,0 +1,11 @@
+.git
+.github
+target
+.idea
+*.iml
+logs
+**/.DS_Store
+.mvn/wrapper
+mvnw
+mvnw.cmd
+node_modules
