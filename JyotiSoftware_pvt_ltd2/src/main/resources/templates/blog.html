@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Access InfoSources Blog | Jyoti Software Pvt. Ltd</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* Sticky navbar */
+    header.sticky {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(25,42,86,.88);
+      backdrop-filter: blur(6px);
+    }
+    .brand{font-weight:700;color:#fff;text-decoration:none}
+    .nav-link{color:#fff!important;font-weight:600}
+    .nav-link.active,.nav-link:hover{color:#ffc107!important}
+
+    /* HERO — full screen + sliding bg */
+    .hero{
+      height:100vh;                     /* full screen */
+      display:flex;align-items:center;justify-content:center;
+      text-align:center;color:#fff;
+      background:
+        linear-gradient(rgba(20,33,61,.55), rgba(20,33,61,.55)),
+        url('/images/blog.jpg') center center / cover no-repeat;
+      animation: slideLTR 80s linear infinite;
+    }
+    /* subtle left -> right motion */
+    @keyframes slideLTR{
+      0%   { background-position: center 0,      0 0; }
+      100% { background-position: center 0,  3000px 0; }
+    }
+    @media (prefers-reduced-motion: reduce){ .hero{animation:none} }
+
+    .hero h1{font-weight:800;letter-spacing:.4px}
+    .lead-muted{color:rgba(255,255,255,.92);max-width:900px;margin:0 auto}
+
+    /* Cards */
+    .post-card{transition:transform .2s,box-shadow .2s}
+    .post-card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+    .post-img{
+      width:100%;height:320px;object-fit:cover;display:block;
+      border-top-left-radius:.5rem;border-top-right-radius:.5rem;
+    }
+    /* Blog-style cards (screenshot look) */
+.blog-section { background:#1f1f1f; }
+.blog-card {
+  background:#0b2a4a;               /* navy text block */
+  border:0; border-radius:18px; overflow:hidden;
+  box-shadow:0 6px 20px rgba(0,0,0,.25);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.blog-card:hover { transform:translateY(-4px); box-shadow:0 12px 28px rgba(0,0,0,.28); }
+.blog-img { width:100%; height:210px; object-fit:cover; display:block; }
+.blog-body { padding:18px 18px 12px; color:#cfe4ff; }        /* light text */
+.blog-title { color:#fff; font-weight:800; font-size:1.1rem; line-height:1.35; }
+.blog-excerpt { color:#c7d6e8; font-size:.95rem; margin-top:.5rem; }
+.blog-read { color:#ff5a52; font-weight:600; text-decoration:none; }
+.blog-read:hover { text-decoration:underline; }
+.view-more-wrap { text-align:center; margin-top:28px; }
+.view-more-btn {
+  display:inline-block; padding:12px 28px; font-weight:600; color:#fff; border:0; border-radius:12px;
+  background:linear-gradient(90deg,#c62f35,#6b2a2f);
+}
+@media (min-width:992px){ .blog-img{ height:240px; } }
+@media (max-width:575.98px){ .blog-img{ height:180px; } }
+.navbar {
+	background: rgba(0, 0, 0, 0.6) !important;
+	backdrop-filter: blur(10px);
+	z-index: 10;
+}
+
+.nav-link {
+	color: white !important;
+	font-weight: 500;
+	margin: 0 12px;
+}
+
+.nav-link.active,
+.nav-link:hover {
+	color: #FFD700 !important;
+}
+
+.navbar-brand img {
+	height: 50px;
+	border-radius: 6px;
+}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="sticky py-3">
+  <nav class="container d-flex align-items-center justify-content-between">
+    <!-- Logo on the left -->
+    <div class="d-flex align-items-center">
+      <img src="/images/logo.png" alt="Jyoti Software Pvt. Ltd Logo" style="height:50px; margin-right:10px;">
+      <a class="brand fw-bold" th:href="@{/}">Jyoti Software Pvt. Ltd</a>
+    </div>
+
+    <!-- Navigation Menu -->
+    <ul class="nav">
+      <li class="nav-item"><a class="nav-link" th:href="@{/home}">Home</a></li>
+      <li class="nav-item"><a class="nav-link" th:href="@{/about}">About Us</a></li>
+      <li class="nav-item"><a class="nav-link" th:href="@{/portfolio}">Portfolio</a></li>
+      <li class="nav-item"><a class="nav-link" th:href="@{/services}">Services</a></li>
+      <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact Us</a></li>
+      <li class="nav-item"><a class="nav-link active" th:href="@{/blog}">Blog</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1 class="display-4 fw-bold">Our Blog</h1>
+    <p class="lead lead-muted mt-3">
+      Welcome to the Jyoti Software Pvt. Ltd Blog, where we share expert insights, tips, and strategies to help businesses thrive in the digital era.
+      Our team specializes in mobile app development, frontend design, backend APIs, AWS cloud solutions, digital marketing, web hosting, UI/UX design, and software consulting.
+      Through our blog, we aim to provide actionable resources that can help you build modern, scalable, and secure digital solutions — from crafting high-quality Android/iOS apps to deploying robust Java + Spring Boot APIs and optimizing your brand with SEO and social media.
+      Whether you’re looking to enhance your website, attract more traffic, or improve your app’s user experience, we cover the latest industry trends, real-world case studies, and practical how-to guides to keep you ahead in today’s competitive landscape.
+      Check out our latest posts and stay tuned for more powerful insights to accelerate your business growth.
+    </p>
+    <a th:href="@{/contact}" class="btn btn-danger px-4 py-2 mt-4">Meet the Team</a>
+  </div>
+</section>
+
+
+
+<section class="blog-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <div class="section-label text-primary fw-bold">OUR BLOG</div>
+      <h2 class="section-heading mt-2 text-white">Insights and Inspiration :
+        Discover Our Latest Blog Posts</h2>
+      <p class="section-subtitle text-white">
+        Stay up-to-date with the latest industry trends and best practices by exploring our blog. 
+        Our team of experts shares their insights on web design, digital marketing, and more to help you stay ahead of the competition.
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- 1) Mobile Application -->
+      <div class="col-md-6 col-lg-3">
+        <article class="blog-card h-100">
+          <img src="/images/mobileapp.jpg" alt="Mobile Application" class="blog-img">
+          <div class="blog-body">
+            <h3 class="blog-title">Mobile Application</h3>
+            <p class="blog-excerpt">Custom Android & iOS apps with premium UI/UX, performance and security.</p>
+            <a th:href="@{/app}" class="blog-read">Learn more ›</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- 2) Frontend Development -->
+      <div class="col-md-6 col-lg-3">
+        <article class="blog-card h-100">
+          <img src="/images/frontend.jpg" alt="Frontend Development" class="blog-img">
+          <div class="blog-body">
+            <h3 class="blog-title">Frontend Development</h3>
+            <p class="blog-excerpt">Modern, responsive UIs using React, HTML5, CSS3 and JavaScript.</p>
+            <a th:href="@{/website}" class="blog-read">Learn more ›</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- 3) Backend Development -->
+      <div class="col-md-6 col-lg-3">
+        <article class="blog-card h-100">
+          <img src="/images/backend.jpg" alt="Backend Development" class="blog-img">
+          <div class="blog-body">
+            <h3 class="blog-title">Backend Development</h3>
+            <p class="blog-excerpt">Secure Java + Spring Boot APIs with MySQL and robust architecture.</p>
+            <a th:href="@{/website}" class="blog-read">Learn more ›</a>
+          </div>
+        </article>
+      </div>
+
+      <!-- 4) AWS Cloud -->
+      <div class="col-md-6 col-lg-3">
+        <article class="blog-card h-100">
+          <img src="/images/aws.jpg" alt="AWS Cloud" class="blog-img">
+          <div class="blog-body">
+            <h3 class="blog-title">AWS Cloud</h3>
+            <p class="blog-excerpt">Scalable deployments with EC2, S3 and best-practice cloud setup.</p>
+            <a th:href="@{/hosting}" class="blog-read">Learn more ›</a>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- Collapsible SECOND ROW (hidden until clicked) -->
+    <div class="collapse mt-4" id="moreServices">
+      <div class="row g-4">
+        <!-- 5) Digital Marketing -->
+        <div class="col-md-6 col-lg-3">
+          <article class="blog-card h-100">
+            <img src="/images/seo.jpg" alt="Digital Marketing" class="blog-img">
+            <div class="blog-body">
+              <h3 class="blog-title">Digital Marketing</h3>
+              <p class="blog-excerpt">SEO, SMM and paid ads to grow traffic and conversions.</p>
+              <a th:href="@{/seo}" class="blog-read">Learn more ›</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- 6) Web Hosting -->
+        <div class="col-md-6 col-lg-3">
+          <article class="blog-card h-100">
+            <img src="/images/hosting.jpg" alt="Web Hosting" class="blog-img">
+            <div class="blog-body">
+              <h3 class="blog-title">Web Hosting</h3>
+              <p class="blog-excerpt">Fast, reliable and secure hosting with 24×7 monitoring.</p>
+              <a th:href="@{/hosting}" class="blog-read">Learn more ›</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- 7) UI/UX Design -->
+        <div class="col-md-6 col-lg-3">
+          <article class="blog-card h-100">
+            <img src="/images/uiux.jpg" alt="UI/UX Design" class="blog-img">
+            <div class="blog-body">
+              <h3 class="blog-title">UI/UX Design</h3>
+              <p class="blog-excerpt">Human-centric, visually rich interfaces that users love.</p>
+              <a th:href="@{/website}" class="blog-read">Learn more ›</a>
+            </div>
+          </article>
+        </div>
+
+        <!-- 8) Software Consulting -->
+        <div class="col-md-6 col-lg-3">
+          <article class="blog-card h-100">
+            <img src="/images/consulting.jpg" alt="Software Consulting" class="blog-img">
+            <div class="blog-body">
+              <h3 class="blog-title">Software Consulting</h3>
+              <p class="blog-excerpt">Roadmaps, audits and tech guidance to de-risk delivery.</p>
+              <a th:href="@{/portfolio}" class="blog-read">Learn more ›</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- View More button -->
+    <div class="view-more-wrap text-center mt-4">
+      <button
+        class="view-more-btn"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#moreServices"
+        aria-expanded="false"
+        aria-controls="moreServices"
+        id="toggleMoreBtn">
+        View More
+      </button>
+    </div>
+  </div>
+</section>
+<!--FOOTER--->
+<!-- footer section -->
+<footer class="bg-danger text-white pt-5 pb-4">
+  <div class="container">
+    <div class="row">
+
+      <!-- Company Info -->
+      <div class="col-md-5 mb-4">
+        <img src="/images/logo.png" alt="Jyoti Software Pvt. Ltd." style="height: 50px;" />
+        <h6 class="text-warning mt-3">Software Solutions & IT Agency</h6>
+        <p class="fw-bold">Innovative software<br />solutions with real-world impact.</p>
+        <p>
+          Jyoti Software Pvt. Ltd. is a full-stack software company delivering tailored IT services,
+          including web and mobile app development, cloud hosting, SEO support, and business automation.
+          We turn your vision into scalable digital solutions.
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div class="col-md-2 mb-4">
+        <h5 class="fw-bold">Explore</h5>
+        <ul class="list-unstyled">
+          <li><a href="/home" class="text-white text-decoration-none">Home</a></li>
+          <li><a href="/portfolio" class="text-white text-decoration-none">Portfolio</a></li>
+          <li><a href="/service" class="text-white text-decoration-none">Services</a></li>
+        </ul>
+      </div>
+
+      <!-- Support -->
+      <div class="col-md-2 mb-4">
+        <h5 class="fw-bold">Company</h5>
+        <ul class="list-unstyled">
+          <li><a href="/about" class="text-white text-decoration-none">About Us</a></li>
+          <li><a href="/contact" class="text-white text-decoration-none">Contact Us</a></li>
+          <li><a href="/blog" class="text-white text-decoration-none">Blog</a></li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div class="col-md-3 mb-4">
+        <h5 class="fw-bold">Legal</h5>
+        <ul class="list-unstyled">
+          <li><a href="/privacy-policy" class="text-white text-decoration-none">Privacy Policy</a></li>
+          <li><a href="/terms" class="text-white text-decoration-none">Terms of Service</a></li>
+          <li><a href="/cookie-policy" class="text-white text-decoration-none">Cookie Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="border-light" />
+    <div class="text-center">
+      <p class="mb-0">&copy; 2025 Jyoti Software Pvt. Ltd. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

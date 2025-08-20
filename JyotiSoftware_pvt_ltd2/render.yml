@@ -8,7 +8,7 @@ services:
     autoDeploy: true
 
     # Render health check (change to /actuator/health if you added Actuator)
-    healthCheckPath: /home
+    healthCheckPath: /actuator/health
 
     # Optional: build only when these paths change
     buildFilter:
