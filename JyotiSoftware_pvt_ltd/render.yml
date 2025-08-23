@@ -7,24 +7,30 @@ services:
     dockerfilePath: ./Dockerfile
     autoDeploy: true
 
-    # Render health check (change to /actuator/health if you added Actuator)
-    healthCheckPath: /home
+    # Safer: use "/" unless you *know* /home exists
+    healthCheckPath: /
 
-    # Optional: build only when these paths change
     buildFilter:
       paths:
         - Dockerfile
         - render.yaml
         - JyotiSoftware_pvt_ltd/**
 
+    # Let Dockerfile's ENTRYPOINT run the app; no startCommand needed
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: docker
+
+      # Railway public MySQL (add flags that avoid TLS/handshake issues)
+      # ⚠️ Update the PORT here whenever Railway rotates it.
       - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://switchyard.proxy.rlwy.net:36188/railway
+        value: jdbc:mysql://switchyard.proxy.rlwy.net:36188/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&tcpKeepAlive=true&connectTimeout=10000&socketTimeout=15000
       - key: SPRING_DATASOURCE_USERNAME
         value: root
       - key: SPRING_DATASOURCE_PASSWORD
         value: LsZxBqitFmFrzmtgItFwlgOZZtnyeTqn
+
+      - key: JAVA_OPTS
+        value: -XX:MaxRAMPercentage=75.0
       - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-        value: org.hibernate.dialect.MySQL8Dialect
+        value: org.hibernate.dialect.MySQLDialect

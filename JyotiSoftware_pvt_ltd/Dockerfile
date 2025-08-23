@@ -11,11 +11,12 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 RUN useradd -m app && chown -R app:app /app
 USER app
+
+# copy the fat jar (adjust pattern if needed)
 COPY --from=build /app/target/*.jar /app/app.jar
 
-ENV PORT=9090 JAVA_OPTS=""
-EXPOSE 9090
-ENTRYPOINT ["sh","-c","java -Dserver.port=${PORT:-9090} $JAVA_OPTS -jar /app/app.jar"]
+# EXPOSE is optional on Render; keep it tidy
+EXPOSE 10000
 
-
-
+# Bind to Render's $PORT (fallback 10000) and all interfaces
+ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /app/app.jar --spring.profiles.active=${SPRING_PROFILES_ACTIVE:-docker} --server.address=0.0.0.0 --server.port=${PORT:-10000}"]
