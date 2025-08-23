@@ -16,3 +16,6 @@ COPY --from=build /app/target/*.jar /app/app.jar
 ENV PORT=9090 JAVA_OPTS=""
 EXPOSE 9090
 ENTRYPOINT ["sh","-c","java -Dserver.port=${PORT:-9090} $JAVA_OPTS -jar /app/app.jar"]
+
+
+
