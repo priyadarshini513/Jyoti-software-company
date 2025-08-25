@@ -24,7 +24,7 @@ public class ProductController {
 	@Autowired
 	private ProductRepository productRepository;
 
-	@GetMapping("/home")
+	@GetMapping("/")
 	public String showHomePage(Model model) { // <-- use Model, not Product
 		List<Product> products = productRepository.findAll();
 		model.addAttribute("products", products);
