@@ -7,7 +7,6 @@ services:
     dockerfilePath: ./Dockerfile
     autoDeploy: true
 
-    # Safer: use "/" unless you *know* /home exists
     healthCheckPath: /
 
     buildFilter:
@@ -16,21 +15,23 @@ services:
         - render.yaml
         - JyotiSoftware_pvt_ltd/**
 
-    # Let Dockerfile's ENTRYPOINT run the app; no startCommand needed
     envVars:
-      - key: SPRING_PROFILES_ACTIVE
-        value: docker
+      # ✅ Use your Render Postgres (internal) creds
+      - key: DB_HOST
+        value: dpg-d2s1p9nfte5s739ftvp0-a
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_NAME
+        value: jyoti_software_services
+      - key: DB_USER
+        value: jyoti_software_services_user
+      - key: DB_PASS
+        value: 7ndmr2HzMdAaGmMAlmmERn81TzEBOWlw
 
-      # Railway public MySQL (add flags that avoid TLS/handshake issues)
-      # ⚠️ Update the PORT here whenever Railway rotates it.
-      - key: SPRING_DATASOURCE_URL
-        value: jdbc:mysql://switchyard.proxy.rlwy.net:36188/railway?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&tcpKeepAlive=true&connectTimeout=10000&socketTimeout=15000
-      - key: SPRING_DATASOURCE_USERNAME
-        value: root
-      - key: SPRING_DATASOURCE_PASSWORD
-        value: LsZxBqitFmFrzmtgItFwlgOZZtnyeTqn
-
+      # JVM memory tune for small container
       - key: JAVA_OPTS
-        value: -XX:MaxRAMPercentage=75.0
-      - key: SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT
-        value: org.hibernate.dialect.MySQLDialect
+        value: -XX:MaxRAMPercentage=75.0 -XX:+ExitOnOutOfMemoryError
+
+      # Keep Java 17 if you build on Render without Docker; harmless here
+      - key: JAVA_VERSION
+        value: "17"
